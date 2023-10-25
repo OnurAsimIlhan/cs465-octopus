@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Octopus Project</title>
+    <script src='http://www.cs.unm.edu/~angel/COURSERA/CODE/Common/webgl-utils.js'></script>
+    <script src='http://www.cs.unm.edu/~angel/COURSERA/CODE/Common/initShaders.js'></script>
+    <script src='http://www.cs.unm.edu/~angel/COURSERA/CODE/Common/MV.js'></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script type="text/javascript" src="octopus.js"></script>
+
+    <script id="vertex-shader" type="x-shader/x-vertex">
+        attribute vec2 vPosition;
+        attribute vec4 vColor; 
+        varying vec4 fColor; 
+        uniform mat4 viewMatrix; // Add a uniform for the view matrix
+
+        void main() {
+            gl_Position = viewMatrix * vec4(vPosition, 0.0, 1.0);
+            fColor = vColor;
+        }
+    </script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment">
+        precision mediump float; 
+        varying vec4 fColor; 
+        void main() { 
+            gl_FragColor = fColor; 
+        }
+    </script>
+</head>
+
+<body>
+    <div class="canvas">
+        <canvas id="gl-canvas" width="600" height="600">
+            Oops ... your browser doesn't support the HTML5 canvas element
+        </canvas>
+    </div>
+
+    <script>
+        //control logic
+            //color change
+            //arm1
+            //arm2
+            //..
+
+            //save
+            //load
+            //play
+            //add frame
+            //frame selection and change order
+            //reset
+            //choose background
+
+
+    </script>
+
+
+</body>
+
+</html>
