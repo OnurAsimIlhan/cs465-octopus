@@ -2,103 +2,65 @@
 var gl;
 var canvas;
 var program;
-
-var a = 0.95;
-var b = 0.95;
-var c = 0.95;
-var d = 0.95;
+var vertexBuffer;
 
 //objects
-function RectanglePrism(dimensions, currentLocation, direction) {
-       
-}
-function Cylinder(dimensions, currentLocation, direction) {
-    
-}
-function Sphere(dimensions, currentLocation, direction) {
-    
-}
+function RectanglePrism(dimensions, currentLocation, direction) {}
+function Cylinder(dimensions, currentLocation, direction) {}
+function Sphere(dimensions, currentLocation, direction) {}
 
 //joint
-function Joint(object1, object2, object1_tip, obect2_tip){
-
-}
+function Joint(object1, object2, object1_tip, obect2_tip) {}
 
 //hierarchy
-function Octopus(arm1, arm2, arm3){
-
-}
-
-
+function Octopus(arm1, arm2, arm3) {}
 
 //interpolation logic
-
 
 //texture mapping logic
 
 //listeners
-function initListeners() {
-
-}
+function initListeners() {}
 
 //Functions
-function createBuffer(){
-
-}
-
-function updateBuffer(){
-
-}
-
-function displayFrame(){
-
-}
-
-function downloadFrame(){
-
-}
-
-function loadFrame(){
-
-}
-
-function loadAnimation(){
-
-}
-
-function saveAnimation(){
-    
-}
+function updateBuffer() {}
+function createBuffer() {}
+function displayFrame() {}
+function downloadFrame() {}
+function loadFrame() {}
+function loadAnimation() {}
+function saveAnimation() {}
 
 //onload
-window.onload = function() {
-    canvas = document.getElementById("gl-canvas");
-    gl = WebGLUtils.setupWebGL(canvas);
-    if (!gl) {
-        alert("WebGL isn't available");
-        return;
-    }
-    //init listeners
-    initListeners();
-    //init program and shaders
-    program = initShaders(gl, "vertex-shader", "fragment-shader");
-    gl.useProgram(program);
+window.onload = function init() {
+  canvas = document.getElementById("gl-canvas");
+  gl = WebGLUtils.setupWebGL(canvas);
+  if (!gl) {
+    alert("WebGL isn't available");
+    return;
+  }
+  //init listeners
+  initListeners();
 
+  gl.viewport(0, 0, canvas.width, canvas.height);
+  gl.clearColor(0.8, 0.8, 0.8, 1.0);
+  gl.clear(gl.COLOR_BUFFER_BIT);
 
-    //createbuffer
-    createBuffer();
-    updateBuffer();
+  //init program and shaders
+  program = initShaders(gl, "vertex-shader", "fragment-shader");
+  gl.useProgram(program);
 
-    gl.viewport(0, 0, canvas.width, canvas.height);
+  createBuffer();
+  updateBuffer();
 
-    gl.clearColor(a,b,c,d);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-
-    render();
-}
-
+  render();
+};
 
 //render
-function render(){
+function render() {
+  gl.clear(gl.COLOR_BUFFER_BIT);
 
+  setTimeout(function () {
+    requestAnimFrame(render);
+  }, 50);
 }
