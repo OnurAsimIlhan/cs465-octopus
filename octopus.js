@@ -536,7 +536,6 @@ var render = function() {
   
   modelViewMatrix = rotate(theta[Base], 0, 1, 0 );
   model2 = modelViewMatrix;
-  model3 = modelViewMatrix;
   base();
 
   modelViewMatrix = mult(modelViewMatrix, translate(0.0, BASE_HEIGHT, 0.0)); 
