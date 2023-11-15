@@ -3,8 +3,14 @@ var gl;
 var canvas;
 var program;
 var vertexBuffer;
+var modelViewMatrixLoc;
+var vBuffer;
+var vPosition;
+var pointsArray = [];
+var instanceMatrix;
 
 //objects
+
 function RectanglePrism(dimensions, currentLocation, direction) {}
 function Cylinder(dimensions, currentLocation, direction) {}
 function Sphere(dimensions, currentLocation, direction) {}
@@ -20,11 +26,47 @@ function Octopus(arm1, arm2, arm3) {}
 //texture mapping logic
 
 //listeners
-function initListeners() {}
+function initListeners() {
+
+  document.getElementById("arm0-base").onchange = function(event) {
+    console.log(event.target.value);
+  };
+  document.getElementById("arm1-base").onchange = function(event) {
+    console.log(event.target.value);
+  };
+  document.getElementById("arm2-base").onchange = function(event) {
+    console.log(event.target.value);
+  };
+  document.getElementById("arm3-base").onchange = function(event) {
+    console.log(event.target.value);
+  };
+  document.getElementById("arm4-base").onchange = function(event) {
+    console.log(event.target.value);
+  };
+  document.getElementById("arm5-base").onchange = function(event) {
+    console.log(event.target.value);
+  };
+  document.getElementById("arm6-base").onchange = function(event) {
+    console.log(event.target.value);
+  };
+  document.getElementById("arm7-base").onchange = function(event) {
+    console.log(event.target.value);
+  };
+
+}
 
 //Functions
 function updateBuffer() {}
-function createBuffer() {}
+function createBuffer() {
+  vBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, flatten(pointsArray), gl.STATIC_DRAW);
+
+  vPosition = gl.getAttribLocation( program, "vPosition" );
+  gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
+  gl.enableVertexAttribArray( vPosition );
+}
+
 function displayFrame() {}
 function downloadFrame() {}
 function loadFrame() {}
@@ -40,15 +82,21 @@ window.onload = function init() {
     return;
   }
   //init listeners
+  gl.viewport(0, 0, canvas.width, canvas.height);
+  gl.clearColor(1.0, 1.0, 0.8, 1.0);
+  gl.enable(gl.DEPTH_TEST);
+
+  program = initShaders(gl, "vertex-shader", "fragment-shader");
+  gl.useProgram(program);
+
+
+
+
   initListeners();
 
-  gl.viewport(0, 0, canvas.width, canvas.height);
-  gl.clearColor(0.8, 0.8, 0.8, 1.0);
   gl.clear(gl.COLOR_BUFFER_BIT);
 
   //init program and shaders
-  program = initShaders(gl, "vertex-shader", "fragment-shader");
-  gl.useProgram(program);
 
   createBuffer();
   updateBuffer();
@@ -59,8 +107,5 @@ window.onload = function init() {
 //render
 function render() {
   gl.clear(gl.COLOR_BUFFER_BIT);
-
-  setTimeout(function () {
-    requestAnimFrame(render);
-  }, 50);
+  requestAnimFrame(render);
 }
