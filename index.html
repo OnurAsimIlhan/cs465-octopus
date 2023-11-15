@@ -11,46 +11,53 @@
     <script src="octopus.js"></script>
 
     <script id="vertex-shader" type="x-shader/x-vertex">
-
         attribute  vec4 vPosition;
+        attribute  vec4 vColor;
+        varying vec4 fColor;
         
         uniform mat4 modelViewMatrix;
         uniform mat4 projectionMatrix;
         
         void main() 
         {
+            fColor = vColor;
             gl_Position = projectionMatrix * modelViewMatrix * vPosition;
         } 
-    </script>
+        </script>
 
     <script id="fragment-shader" type="x-shader/x-fragment">
 
-        precision mediump float;
-        
-        void main()
-        {
-            gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
-        
+            precision mediump float;
+            
+            varying  vec4 fColor;
+            
+            void main() 
+            { 
+                gl_FragColor = fColor;
+            } 
+            </script>
+    <style>
+        .arm-container {
+            display: flex;
         }
-        </script>
-        <style>
-            .arm-container {
-                display: flex;
-            }
-        
-            .arm-container > div {
-                margin-right: 10px; /* Adjust the margin as needed */
-            }
-        </style>
+
+        .arm-container>div {
+            margin-right: 10px;
+            /* Adjust the margin as needed */
+        }
+    </style>
 </head>
 
 <body>
     <div class="canvas">
         <canvas id="gl-canvas" width="800" height="800">Oops ... your browser doesn't support the HTML5 canvas
             element</canvas>
-    </div>
-    
+        <div id="headSlider">
+            Head arm angle -180 <input id="slide" type="range" min="-180" max="180" step="10" value="0">
+            180
+        </div>
 
+    </div>
     <div id="arms-container">
         <!-- JavaScript will dynamically generate arm containers here -->
     </div>
@@ -58,29 +65,35 @@
     <script>
         // JavaScript to dynamically generate arm containers for arm0 to arm7
         var armsContainer = document.getElementById('arms-container');
-    
-        for (var i = 0; i <= 7; i++) {
+
+        for (var i = 1; i <= 8; i++) {
             var armContainer = document.createElement('div');
             armContainer.className = 'arm-container';
             armContainer.id = 'arm' + i + '-container';
-    
+
             var baseDiv = document.createElement('div');
-            baseDiv.id = 'arm' + i + '-base';
-            baseDiv.innerHTML = 'arm' + i + '-base angle -180 <input id="slide" type="range" min="-180" max="180" step="10" value="0"> 180';
-    
+            baseDiv.id = 'arm' + i;
+            baseDiv.innerHTML = 'arm' + i + '-base angle -180 <input id="slide" type="range" min="-45" max="45" step="10" value="0"> 180';
+
             var frontDiv = document.createElement('div');
-            frontDiv.id = 'arm' + i + '-front';
-            frontDiv.innerHTML = 'arm' + i + '-base angle -180 <input id="slide" type="range" min="-180" max="180" step="10" value="0"> 180';
-    
+            frontDiv.id = 'upperarm' + i;
+            frontDiv.innerHTML = 'upperarm' + i + '-base angle -180 <input id="slide" type="range" min="-90" max="90" step="10" value="0"> 180';
+
+            var backDiv = document.createElement('div');
+            backDiv.id = 'lowerarm' + i;
+            backDiv.innerHTML = 'lowerarm' + i + '-base angle -180 <input id="slide" type="range" min="-90" max="90" step="10" value="0"> 180';
+
+
             armContainer.appendChild(baseDiv);
             armContainer.appendChild(frontDiv);
+            armContainer.appendChild(backDiv);
             armsContainer.appendChild(armContainer);
         }
     </script>
 
 
-    
-    
+
+
     <script>
         //control logic
         //color change
