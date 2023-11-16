@@ -123,7 +123,7 @@ function Sphere(dimensions, currentLocation, direction) {}
 
 function base() {
   var s = scale4(BASE_WIDTH, BASE_HEIGHT, BASE_WIDTH);
-  var instanceMatrix = mult( translate( 0.0, 1 * BASE_HEIGHT, 0.0 ), s);
+  var instanceMatrix = mult( translate( 0.0, 0.5 * BASE_HEIGHT, 0.0 ), s);
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv(modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
@@ -133,56 +133,56 @@ function base() {
 
 function arm1_base() {
   var s = scale4(ARM_WIDTH, ARM_HEIGHT, ARM_WIDTH);
-  var instanceMatrix = mult(translate( -0.5*BASE_WIDTH, -1* ARM_HEIGHT, 0.0 ),s);    
+  var instanceMatrix = mult(translate( 0.0, -0.5* ARM_HEIGHT, 0.0 ),s);    
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv( modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
 }
 function arm2_base() {
   var s = scale4(ARM_WIDTH, ARM_HEIGHT, ARM_WIDTH);
-  var instanceMatrix = mult(translate( 0.5*BASE_WIDTH, -1* ARM_HEIGHT, 0.0 ),s);    
+  var instanceMatrix = mult(translate( 0.0, -0.5* ARM_HEIGHT, 0.0 ),s);    
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv( modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
 }
 function arm3_base() {
   var s = scale4(ARM_WIDTH, ARM_HEIGHT, ARM_WIDTH);
-  var instanceMatrix = mult(translate( 0*BASE_WIDTH, -1* ARM_HEIGHT, 0.5*BASE_WIDTH ),s);    
+  var instanceMatrix = mult(translate( 0.0, -0.5* ARM_HEIGHT, 0.0 ),s);    
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv( modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
 }
 function arm4_base() {
   var s = scale4(ARM_WIDTH, ARM_HEIGHT, ARM_WIDTH);
-  var instanceMatrix = mult(translate( 0*BASE_WIDTH, -1* ARM_HEIGHT, -0.5*BASE_WIDTH ),s);    
+  var instanceMatrix = mult(translate( 0.0, -0.5* ARM_HEIGHT, 0.0 ),s);    
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv( modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
 }
 function arm5_base() {
   var s = scale4(ARM_WIDTH, ARM_HEIGHT, ARM_WIDTH);
-  var instanceMatrix = mult(translate( 0.5*BASE_WIDTH, -1* ARM_HEIGHT, 0.5*BASE_WIDTH ),s);    
+  var instanceMatrix = mult(translate( 0.0, -0.5* ARM_HEIGHT, 0.0 ),s);    
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv( modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
 }
 function arm6_base() {
   var s = scale4(ARM_WIDTH, ARM_HEIGHT, ARM_WIDTH);
-  var instanceMatrix = mult(translate( -0.5*BASE_WIDTH, -1* ARM_HEIGHT, 0.5*BASE_WIDTH ),s);    
+  var instanceMatrix = mult(translate( 0.0, -0.5* ARM_HEIGHT, 0.0 ),s);    
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv( modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
 }
 function arm7_base() {
   var s = scale4(ARM_WIDTH, ARM_HEIGHT, ARM_WIDTH);
-  var instanceMatrix = mult(translate( -0.5*BASE_WIDTH, -1* ARM_HEIGHT, -0.5*BASE_WIDTH ),s);    
+  var instanceMatrix = mult(translate( 0.0, -0.5* ARM_HEIGHT, 0.0 ),s);    
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv( modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
 }
 function arm8_base() {
   var s = scale4(ARM_WIDTH, ARM_HEIGHT, ARM_WIDTH);
-  var instanceMatrix = mult(translate( 0.5*BASE_WIDTH, -1* ARM_HEIGHT, -0.5*BASE_WIDTH ),s);    
+  var instanceMatrix = mult(translate( 0.0, -0.5* ARM_HEIGHT, 0.0 ),s);    
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv( modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
@@ -190,28 +190,28 @@ function arm8_base() {
 
 function upperArm1() {
   var s = scale4(UPPER_ARM_WIDTH, UPPER_ARM_HEIGHT, UPPER_ARM_WIDTH);
-  var instanceMatrix = mult(translate( -0.5*BASE_WIDTH, -3.75* UPPER_ARM_HEIGHT, 0.0 ),s);    
+  var instanceMatrix = mult(translate( 0.0, -0.5* UPPER_ARM_HEIGHT, 0.0 ),s);    
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv( modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
 }
 function upperArm2() {
   var s = scale4(UPPER_ARM_WIDTH, UPPER_ARM_HEIGHT, UPPER_ARM_WIDTH);
-  var instanceMatrix = mult(translate( 0.5*BASE_WIDTH, -3.75* UPPER_ARM_HEIGHT, 0.0 ),s);    
+  var instanceMatrix = mult(translate( 0.0, -0.5* UPPER_ARM_HEIGHT, 0.0 ),s);    
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv( modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
 }
 function upperArm3() {
   var s = scale4(UPPER_ARM_WIDTH, UPPER_ARM_HEIGHT, UPPER_ARM_WIDTH);
-  var instanceMatrix = mult(translate( 0*BASE_WIDTH, -3.75* UPPER_ARM_HEIGHT,  0.5*BASE_WIDTH ),s);    
+  var instanceMatrix = mult(translate( 0.0, -0.5* UPPER_ARM_HEIGHT, 0.0 ),s);    
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv( modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
 }
 function upperArm4() {
   var s = scale4(UPPER_ARM_WIDTH, UPPER_ARM_HEIGHT, UPPER_ARM_WIDTH);
-  var instanceMatrix = mult(translate( 0*BASE_WIDTH, -3.75* UPPER_ARM_HEIGHT,  -0.5*BASE_WIDTH ),s);    
+  var instanceMatrix = mult(translate( 0.0, -0.5* UPPER_ARM_HEIGHT, 0.0 ),s);    
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv( modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
@@ -219,28 +219,28 @@ function upperArm4() {
 
 function upperArm5() {
   var s = scale4(UPPER_ARM_WIDTH, UPPER_ARM_HEIGHT, UPPER_ARM_WIDTH);
-  var instanceMatrix = mult(translate( 0.5*BASE_WIDTH, -3.75* UPPER_ARM_HEIGHT,  0.5*BASE_WIDTH ),s);    
+  var instanceMatrix = mult(translate( 0.0, -0.5* UPPER_ARM_HEIGHT, 0.0 ),s);    
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv( modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
 }
 function upperArm6() {
   var s = scale4(UPPER_ARM_WIDTH, UPPER_ARM_HEIGHT, UPPER_ARM_WIDTH);
-  var instanceMatrix = mult(translate( -0.5*BASE_WIDTH, -3.75* UPPER_ARM_HEIGHT,  0.5*BASE_WIDTH ),s);    
+  var instanceMatrix = mult(translate( 0.0, -0.5* UPPER_ARM_HEIGHT, 0.0 ),s);    
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv( modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
 }
 function upperArm7() {
   var s = scale4(UPPER_ARM_WIDTH, UPPER_ARM_HEIGHT, UPPER_ARM_WIDTH);
-  var instanceMatrix = mult(translate( -0.5*BASE_WIDTH, -3.75* UPPER_ARM_HEIGHT,  -0.5*BASE_WIDTH ),s);    
+  var instanceMatrix = mult(translate( 0.0, -0.5* UPPER_ARM_HEIGHT, 0.0 ),s);    
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv( modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
 }
 function upperArm8() {
   var s = scale4(UPPER_ARM_WIDTH, UPPER_ARM_HEIGHT, UPPER_ARM_WIDTH);
-  var instanceMatrix = mult(translate( 0.5*BASE_WIDTH, -3.75* UPPER_ARM_HEIGHT,  -0.5*BASE_WIDTH ),s);    
+  var instanceMatrix = mult(translate( 0.0, -0.5* UPPER_ARM_HEIGHT, 0.0 ),s);    
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv( modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
@@ -253,7 +253,7 @@ function upperArm8() {
 function lowerArm1()
 {
   var s = scale4(LOWER_ARM_WIDTH, LOWER_ARM_HEIGHT, LOWER_ARM_WIDTH);
-  var instanceMatrix = mult( translate( -0.5*BASE_WIDTH, -8.25* LOWER_ARM_HEIGHT, 0.0 ), s);
+  var instanceMatrix = mult( translate( 0.0, -0.5* LOWER_ARM_HEIGHT, 0.0 ), s);
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv( modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
@@ -262,7 +262,7 @@ function lowerArm1()
 function lowerArm2()
 {
   var s = scale4(LOWER_ARM_WIDTH, LOWER_ARM_HEIGHT, LOWER_ARM_WIDTH);
-  var instanceMatrix = mult( translate( 0.5*BASE_WIDTH, -8.25* LOWER_ARM_HEIGHT, 0.0 ), s);
+  var instanceMatrix = mult( translate( 0.0, -0.5* LOWER_ARM_HEIGHT, 0.0 ), s);
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv( modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
@@ -271,7 +271,7 @@ function lowerArm2()
 function lowerArm3()
 {
   var s = scale4(LOWER_ARM_WIDTH, LOWER_ARM_HEIGHT, LOWER_ARM_WIDTH);
-  var instanceMatrix = mult( translate( 0*BASE_WIDTH, -8.25* LOWER_ARM_HEIGHT,  0.5*BASE_WIDTH), s);
+  var instanceMatrix = mult( translate( 0.0, -0.5* LOWER_ARM_HEIGHT, 0.0 ), s);
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv( modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
@@ -280,7 +280,7 @@ function lowerArm3()
 function lowerArm4()
 {
   var s = scale4(LOWER_ARM_WIDTH, LOWER_ARM_HEIGHT, LOWER_ARM_WIDTH);
-  var instanceMatrix = mult( translate( 0*BASE_WIDTH, -8.25* LOWER_ARM_HEIGHT,  -0.5*BASE_WIDTH), s);
+  var instanceMatrix = mult( translate( 0.0, -0.5* LOWER_ARM_HEIGHT, 0.0 ), s);
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv( modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
@@ -290,7 +290,7 @@ function lowerArm4()
 function lowerArm5()
 {
   var s = scale4(LOWER_ARM_WIDTH, LOWER_ARM_HEIGHT, LOWER_ARM_WIDTH);
-  var instanceMatrix = mult( translate( 0.5*BASE_WIDTH, -8.25* LOWER_ARM_HEIGHT,  0.5*BASE_WIDTH), s);
+  var instanceMatrix = mult( translate( 0.0, -0.5* LOWER_ARM_HEIGHT, 0.0 ), s);
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv( modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
@@ -298,7 +298,7 @@ function lowerArm5()
 function lowerArm6()
 {
   var s = scale4(LOWER_ARM_WIDTH, LOWER_ARM_HEIGHT, LOWER_ARM_WIDTH);
-  var instanceMatrix = mult( translate( -0.5*BASE_WIDTH, -8.25* LOWER_ARM_HEIGHT,  0.5*BASE_WIDTH), s);
+  var instanceMatrix = mult( translate( 0.0, -0.5* LOWER_ARM_HEIGHT, 0.0 ), s);
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv( modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
@@ -306,7 +306,7 @@ function lowerArm6()
 function lowerArm7()
 {
   var s = scale4(LOWER_ARM_WIDTH, LOWER_ARM_HEIGHT, LOWER_ARM_WIDTH);
-  var instanceMatrix = mult( translate( -0.5*BASE_WIDTH, -8.25* LOWER_ARM_HEIGHT,  -0.5*BASE_WIDTH), s);
+  var instanceMatrix = mult( translate( 0.0, -0.5* LOWER_ARM_HEIGHT, 0.0 ), s);
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv( modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
@@ -314,7 +314,7 @@ function lowerArm7()
 function lowerArm8()
 {
   var s = scale4(LOWER_ARM_WIDTH, LOWER_ARM_HEIGHT, LOWER_ARM_WIDTH);
-  var instanceMatrix = mult( translate( 0.5*BASE_WIDTH, -8.25* LOWER_ARM_HEIGHT,  -0.5*BASE_WIDTH), s);
+  var instanceMatrix = mult( translate( 0.0, -0.5* LOWER_ARM_HEIGHT, 0.0 ), s);
   var t = mult(modelViewMatrix, instanceMatrix);
   gl.uniformMatrix4fv( modelViewMatrixLoc,  false, flatten(t) );
   gl.drawArrays( gl.TRIANGLES, 0, NumVertices );
@@ -534,113 +534,113 @@ var render = function() {
 
   gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
   
-  modelViewMatrix = rotate(theta[Base], 0, 1, 0 );
+  modelViewMatrix = mult(translate(0.0, 0.5*BASE_HEIGHT, 0.0), rotate(theta[Base], 0, 1, 0 ));
   model2 = modelViewMatrix;
   base();
 
-  modelViewMatrix = mult(modelViewMatrix, translate(0.0, BASE_HEIGHT, 0.0)); 
+  modelViewMatrix = mult(modelViewMatrix, translate(-0.5*BASE_WIDTH, 0.0, 0.5*BASE_WIDTH));
   modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm1], 0, 0, 1 ));
   arm1_base();
 
-  modelViewMatrix  = mult(modelViewMatrix, translate(0.0, ARM_HEIGHT, 0.0));
+  modelViewMatrix  = mult(modelViewMatrix, translate(0.0, -ARM_HEIGHT, 0.0));
   modelViewMatrix  = mult(modelViewMatrix, rotate(theta[arm1_uppearm], 0, 0, 1) );
   upperArm1();
   
-  modelViewMatrix = mult(modelViewMatrix, translate(0.0, UPPER_ARM_HEIGHT, 0.0)); 
+  modelViewMatrix = mult(modelViewMatrix, translate(0.0, -UPPER_ARM_HEIGHT, 0.0)); 
   modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm1_lowerarm], 0, 0, 1 ));
   lowerArm1();
 
-  modelViewMatrix = mult(model2, translate(0.0, BASE_HEIGHT, 0.0)); 
+
+  modelViewMatrix = mult(model2, translate(0.0, 0.0, 0.5*BASE_WIDTH)); 
   modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm2], 0, 0, 1 ));
   arm2_base();
 
-  modelViewMatrix  = mult(modelViewMatrix, translate(0.0, ARM_HEIGHT, 0.0));
+  modelViewMatrix  = mult(modelViewMatrix, translate(0.0, -ARM_HEIGHT, 0.0));
   modelViewMatrix  = mult(modelViewMatrix, rotate(theta[arm2_uppearm], 0, 0, 1) );
   upperArm2();
   
-  modelViewMatrix = mult(modelViewMatrix, translate(0.0, UPPER_ARM_HEIGHT, 0.0)); 
+  modelViewMatrix = mult(modelViewMatrix, translate(0.0, -UPPER_ARM_HEIGHT, 0.0)); 
   modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm2_lowerarm], 0, 0, 1 ));
   lowerArm2();
 
 
-  modelViewMatrix = mult(model2, translate(0.0, BASE_HEIGHT, 0.0)); 
+  modelViewMatrix = mult(model2, translate(0.5*BASE_WIDTH, 0.0, 0.5*BASE_WIDTH)); 
   modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm3], 0, 0, 1 ));
   arm3_base();
 
-  modelViewMatrix  = mult(modelViewMatrix, translate(0.0, ARM_HEIGHT, 0.0));
+  modelViewMatrix  = mult(modelViewMatrix, translate(0.0, -ARM_HEIGHT, 0.0));
   modelViewMatrix  = mult(modelViewMatrix, rotate(theta[arm3_uppearm], 0, 0, 1) );
   upperArm3();
   
-  modelViewMatrix = mult(modelViewMatrix, translate(0.0, UPPER_ARM_HEIGHT, 0.0)); 
+  modelViewMatrix = mult(modelViewMatrix, translate(0.0, -UPPER_ARM_HEIGHT, 0.0)); 
   modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm3_lowerarm], 0, 0, 1 ));
   lowerArm3();
   
-  modelViewMatrix = mult(model2, translate(0.0, BASE_HEIGHT, 0.0)); 
+  modelViewMatrix = mult(model2, translate(0.5*BASE_WIDTH, 0.0, 0.0)); 
   modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm4], 0, 0, 1 ));
   arm4_base();
 
-  modelViewMatrix  = mult(modelViewMatrix, translate(0.0, ARM_HEIGHT, 0.0));
+  modelViewMatrix  = mult(modelViewMatrix, translate(0.0, -ARM_HEIGHT, 0.0));
   modelViewMatrix  = mult(modelViewMatrix, rotate(theta[arm4_uppearm], 0, 0, 1) );
   upperArm4();
   
-  modelViewMatrix = mult(modelViewMatrix, translate(0.0, UPPER_ARM_HEIGHT, 0.0)); 
+  modelViewMatrix = mult(modelViewMatrix, translate(0.0, -UPPER_ARM_HEIGHT, 0.0)); 
   modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm4_lowerarm], 0, 0, 1 ));
   lowerArm4();
 
 
-  modelViewMatrix = mult(model2, translate(0.0, BASE_HEIGHT, 0.0)); 
+  modelViewMatrix = mult(model2, translate(0.5*BASE_WIDTH, 0.0, -0.5*BASE_WIDTH)); 
   modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm5], 0, 0, 1 ));
   arm5_base();
 
-  modelViewMatrix  = mult(modelViewMatrix, translate(0.0, ARM_HEIGHT, 0.0));
+  modelViewMatrix  = mult(modelViewMatrix, translate(0.0, -ARM_HEIGHT, 0.0));
   modelViewMatrix  = mult(modelViewMatrix, rotate(theta[arm5_uppearm], 0, 0, 1) );
   upperArm5();
   
-  modelViewMatrix = mult(modelViewMatrix, translate(0.0, UPPER_ARM_HEIGHT, 0.0)); 
+  modelViewMatrix = mult(modelViewMatrix, translate(0.0, -UPPER_ARM_HEIGHT, 0.0)); 
   modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm5_lowerarm], 0, 0, 1 ));
   lowerArm5();
 
 
 
-  modelViewMatrix = mult(model2, translate(0.0, BASE_HEIGHT, 0.0)); 
+  modelViewMatrix = mult(model2, translate(0.0, 0.0, -0.5*BASE_WIDTH)); 
   modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm6], 0, 0, 1 ));
   arm6_base();
 
-  modelViewMatrix  = mult(modelViewMatrix, translate(0.0, ARM_HEIGHT, 0.0));
+  modelViewMatrix  = mult(modelViewMatrix, translate(0.0, -ARM_HEIGHT, 0.0));
   modelViewMatrix  = mult(modelViewMatrix, rotate(theta[arm6_uppearm], 0, 0, 1) );
   upperArm6();
   
-  modelViewMatrix = mult(modelViewMatrix, translate(0.0, UPPER_ARM_HEIGHT, 0.0)); 
+  modelViewMatrix = mult(modelViewMatrix, translate(0.0, -UPPER_ARM_HEIGHT, 0.0)); 
   modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm6_lowerarm], 0, 0, 1 ));
   lowerArm6();
 
 
 
-  modelViewMatrix = mult(model2, translate(0.0, BASE_HEIGHT, 0.0)); 
+  modelViewMatrix = mult(model2, translate(-0.5*BASE_WIDTH, 0.0, -0.5*BASE_WIDTH)); 
   modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm7], 0, 0, 1 ));
   arm7_base();
 
-  modelViewMatrix  = mult(modelViewMatrix, translate(0.0, ARM_HEIGHT, 0.0));
+  modelViewMatrix  = mult(modelViewMatrix, translate(0.0, -ARM_HEIGHT, 0.0));
   modelViewMatrix  = mult(modelViewMatrix, rotate(theta[arm7_uppearm], 0, 0, 1) );
   upperArm7();
   
-  modelViewMatrix = mult(modelViewMatrix, translate(0.0, UPPER_ARM_HEIGHT, 0.0)); 
+  modelViewMatrix = mult(modelViewMatrix, translate(0.0, -UPPER_ARM_HEIGHT, 0.0)); 
   modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm7_lowerarm], 0, 0, 1 ));
   lowerArm7();
 
 
-  modelViewMatrix = mult(model2, translate(0.0, BASE_HEIGHT, 0.0)); 
+  modelViewMatrix = mult(model2, translate(-0.5*BASE_WIDTH, 0.0, 0.0)); 
   modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm8], 0, 0, 1 ));
   arm8_base();
 
-  modelViewMatrix  = mult(modelViewMatrix, translate(0.0, ARM_HEIGHT, 0.0));
+  modelViewMatrix  = mult(modelViewMatrix, translate(0.0, -ARM_HEIGHT, 0.0));
   modelViewMatrix  = mult(modelViewMatrix, rotate(theta[arm8_uppearm], 0, 0, 1) );
   upperArm8();
   
-  modelViewMatrix = mult(modelViewMatrix, translate(0.0, UPPER_ARM_HEIGHT, 0.0)); 
+  modelViewMatrix = mult(modelViewMatrix, translate(0.0, -UPPER_ARM_HEIGHT, 0.0)); 
   modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm8_lowerarm], 0, 0, 1 ));
   lowerArm8();
- 
 
   requestAnimFrame(render);
 }
