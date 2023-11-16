@@ -61,7 +61,7 @@ var arm8_uppearm = 23;
 
 var MAX_FRAMES = 10;
 var frames = [];
-var delay = 10;
+var animFlag = true;
 
 var points = [];
 var colors = [];
@@ -507,17 +507,22 @@ function createBuffer() {
 }
 
 function captureFrame() {
-  frames.push(theta);
-  console.log(theta);
+  var temp = [];
+  for (var i = 0; i < theta.length; i++) {
+    temp.push(parseInt(theta[i]));
+  }
+  frames.push(temp);
+  console.log(temp);
   console.log("Frame captured");
 }
 
 function interpolateFrame(index) {
   var interpolatedFrames = [];
-  var frameDif = frames[index+1] - frames[index];
+  var frameDif = subtractArrays(frames[index+1], frames[index]);
+  console.log(frames);
   console.log(frameDif);
   for (var i = 0; i < MAX_FRAMES; i++) {
-    interpolatedFrames.push(frames[index] + 1);
+    interpolatedFrames.push(addArrays(frames[index], divideArray(multArray(frameDif, i))));
   }
   console.log(interpolatedFrames);
   return interpolatedFrames;
@@ -527,16 +532,69 @@ function playAnimation() {
   for (var i = 0; i < frames.length - 1; i++) {
     var temp = interpolateFrame(i);
     for (var j = 0; j < temp.length; j++) {
-      theta = temp[j];
-      setTimeout(() => {  console.log('World!'); }, 200);
+      animFlag = false;
+      displayFrame(temp[j]);
+      setTimeout(() => {  console.log('World!'); }, 2000);
+      animFlag = true;
     }
   }
+  theta = frames[frames.length-1];
 }
-function displayFrame() {}
+
+function displayFrame(newTheta) {
+  theta = newTheta;
+}
 function downloadFrame() {}
 function loadFrame() {}
 function loadAnimation() {}
 function saveAnimation() {}
+
+function subtractArrays(arr1, arr2) {
+  // Make sure both arrays are of the same length
+  if (arr1.length !== arr2.length) {
+    throw new Error("Arrays must have the same length for subtraction.");
+  }
+
+  // Perform subtraction element-wise
+  var result = [];
+  for (var i = 0; i < arr1.length; i++) {
+    result.push(arr1[i] - arr2[i]);
+  }
+
+  return result;
+}
+function addArrays(arr1, arr2) {
+  // Make sure both arrays are of the same length
+  if (arr1.length !== arr2.length) {
+    throw new Error("Arrays must have the same length for addition.");
+  }
+
+  // Perform addition element-wise
+  var result = [];
+  for (var i = 0; i < arr1.length; i++) {
+    result.push(arr1[i] + arr2[i]);
+  }
+
+  return result;
+}
+function divideArray(inputArray) {
+  // Perform division element-wise
+  var result = [];
+  for (var i = 0; i < inputArray.length; i++) {
+    result.push(inputArray[i] / MAX_FRAMES);
+  }
+
+  return result;
+}
+function multArray(inputArray, mult) {
+  // Perform division element-wise
+  var result = [];
+  for (var i = 0; i < inputArray.length; i++) {
+    result.push(inputArray[i] * mult);
+  }
+
+  return result;
+}
 
 //onload
 window.onload = function init() {
@@ -576,117 +634,119 @@ window.onload = function init() {
 
 //render
 var render = function() {
+  if (animFlag) {
+    gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
+    
+    modelViewMatrix = mult(translate(0.0, 0.5*BASE_HEIGHT, 0.0), rotate(theta[Base], 0, 1, 0 ));
+    model2 = modelViewMatrix;
+    base();
 
-  gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
+    modelViewMatrix = mult(modelViewMatrix, translate(-0.5*BASE_WIDTH, 0.0, 0.5*BASE_WIDTH));
+    modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm1], -1, 0, -1 ));
+    arm1_base();
+
+    modelViewMatrix  = mult(modelViewMatrix, translate(0.0, -ARM_HEIGHT, 0.0));
+    modelViewMatrix  = mult(modelViewMatrix, rotate(theta[arm1_uppearm], -1, 0, -1) );
+    upperArm1();
+    
+    modelViewMatrix = mult(modelViewMatrix, translate(0.0, -UPPER_ARM_HEIGHT, 0.0)); 
+    modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm1_lowerarm], -1, 0, -1 ));
+    lowerArm1();
+
+
+    modelViewMatrix = mult(model2, translate(0.0, 0.0, 0.5*BASE_WIDTH)); 
+    modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm2], -1, 0, 0 ));
+    arm2_base();
+
+    modelViewMatrix  = mult(modelViewMatrix, translate(0.0, -ARM_HEIGHT, 0.0));
+    modelViewMatrix  = mult(modelViewMatrix, rotate(theta[arm2_uppearm], -1, 0, 0) );
+    upperArm2();
+    
+    modelViewMatrix = mult(modelViewMatrix, translate(0.0, -UPPER_ARM_HEIGHT, 0.0)); 
+    modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm2_lowerarm], -1, 0, 0 ));
+    lowerArm2();
+
+
+    modelViewMatrix = mult(model2, translate(0.5*BASE_WIDTH, 0.0, 0.5*BASE_WIDTH)); 
+    modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm3], -1, 0, 1 ));
+    arm3_base();
+
+    modelViewMatrix  = mult(modelViewMatrix, translate(0.0, -ARM_HEIGHT, 0.0));
+    modelViewMatrix  = mult(modelViewMatrix, rotate(theta[arm3_uppearm], -1, 0, 1) );
+    upperArm3();
+    
+    modelViewMatrix = mult(modelViewMatrix, translate(0.0, -UPPER_ARM_HEIGHT, 0.0)); 
+    modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm3_lowerarm], -1, 0, 1 ));
+    lowerArm3();
+    
+    modelViewMatrix = mult(model2, translate(0.5*BASE_WIDTH, 0.0, 0.0)); 
+    modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm4], 0, 0, 1 ));
+    arm4_base();
+
+    modelViewMatrix  = mult(modelViewMatrix, translate(0.0, -ARM_HEIGHT, 0.0));
+    modelViewMatrix  = mult(modelViewMatrix, rotate(theta[arm4_uppearm], 0, 0, 1) );
+    upperArm4();
+    
+    modelViewMatrix = mult(modelViewMatrix, translate(0.0, -UPPER_ARM_HEIGHT, 0.0)); 
+    modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm4_lowerarm], 0, 0, 1 ));
+    lowerArm4();
+
+
+    modelViewMatrix = mult(model2, translate(0.5*BASE_WIDTH, 0.0, -0.5*BASE_WIDTH)); 
+    modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm5], 1, 0, 1 ));
+    arm5_base();
+
+    modelViewMatrix  = mult(modelViewMatrix, translate(0.0, -ARM_HEIGHT, 0.0));
+    modelViewMatrix  = mult(modelViewMatrix, rotate(theta[arm5_uppearm], 1, 0, 1) );
+    upperArm5();
+    
+    modelViewMatrix = mult(modelViewMatrix, translate(0.0, -UPPER_ARM_HEIGHT, 0.0)); 
+    modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm5_lowerarm], 1, 0, 1 ));
+    lowerArm5();
+
+
+
+    modelViewMatrix = mult(model2, translate(0.0, 0.0, -0.5*BASE_WIDTH)); 
+    modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm6], 1, 0, 0 ));
+    arm6_base();
+
+    modelViewMatrix  = mult(modelViewMatrix, translate(0.0, -ARM_HEIGHT, 0.0));
+    modelViewMatrix  = mult(modelViewMatrix, rotate(theta[arm6_uppearm], 1, 0, 0) );
+    upperArm6();
+    
+    modelViewMatrix = mult(modelViewMatrix, translate(0.0, -UPPER_ARM_HEIGHT, 0.0)); 
+    modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm6_lowerarm], 1, 0, 0 ));
+    lowerArm6();
+
+
+
+    modelViewMatrix = mult(model2, translate(-0.5*BASE_WIDTH, 0.0, -0.5*BASE_WIDTH)); 
+    modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm7], 1, 0, -1 ));
+    arm7_base();
+
+    modelViewMatrix  = mult(modelViewMatrix, translate(0.0, -ARM_HEIGHT, 0.0));
+    modelViewMatrix  = mult(modelViewMatrix, rotate(theta[arm7_uppearm], 1, 0, -1) );
+    upperArm7();
+    
+    modelViewMatrix = mult(modelViewMatrix, translate(0.0, -UPPER_ARM_HEIGHT, 0.0)); 
+    modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm7_lowerarm], 1, 0, -1 ));
+    lowerArm7();
+
+
+    modelViewMatrix = mult(model2, translate(-0.5*BASE_WIDTH, 0.0, 0.0)); 
+    modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm8], 0, 0, -1 ));
+    arm8_base();
+
+    modelViewMatrix  = mult(modelViewMatrix, translate(0.0, -ARM_HEIGHT, 0.0));
+    modelViewMatrix  = mult(modelViewMatrix, rotate(theta[arm8_uppearm], 0, 0, -1) );
+    upperArm8();
+    
+    modelViewMatrix = mult(modelViewMatrix, translate(0.0, -UPPER_ARM_HEIGHT, 0.0)); 
+    modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm8_lowerarm], 0, 0, -1 ));
+    lowerArm8();
+
+    requestAnimFrame(render);
+  }
   
-  modelViewMatrix = mult(translate(0.0, 0.5*BASE_HEIGHT, 0.0), rotate(theta[Base], 0, 1, 0 ));
-  model2 = modelViewMatrix;
-  base();
-
-  modelViewMatrix = mult(modelViewMatrix, translate(-0.5*BASE_WIDTH, 0.0, 0.5*BASE_WIDTH));
-  modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm1], -1, 0, -1 ));
-  arm1_base();
-
-  modelViewMatrix  = mult(modelViewMatrix, translate(0.0, -ARM_HEIGHT, 0.0));
-  modelViewMatrix  = mult(modelViewMatrix, rotate(theta[arm1_uppearm], -1, 0, -1) );
-  upperArm1();
-  
-  modelViewMatrix = mult(modelViewMatrix, translate(0.0, -UPPER_ARM_HEIGHT, 0.0)); 
-  modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm1_lowerarm], -1, 0, -1 ));
-  lowerArm1();
-
-
-  modelViewMatrix = mult(model2, translate(0.0, 0.0, 0.5*BASE_WIDTH)); 
-  modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm2], -1, 0, 0 ));
-  arm2_base();
-
-  modelViewMatrix  = mult(modelViewMatrix, translate(0.0, -ARM_HEIGHT, 0.0));
-  modelViewMatrix  = mult(modelViewMatrix, rotate(theta[arm2_uppearm], -1, 0, 0) );
-  upperArm2();
-  
-  modelViewMatrix = mult(modelViewMatrix, translate(0.0, -UPPER_ARM_HEIGHT, 0.0)); 
-  modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm2_lowerarm], -1, 0, 0 ));
-  lowerArm2();
-
-
-  modelViewMatrix = mult(model2, translate(0.5*BASE_WIDTH, 0.0, 0.5*BASE_WIDTH)); 
-  modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm3], -1, 0, 1 ));
-  arm3_base();
-
-  modelViewMatrix  = mult(modelViewMatrix, translate(0.0, -ARM_HEIGHT, 0.0));
-  modelViewMatrix  = mult(modelViewMatrix, rotate(theta[arm3_uppearm], -1, 0, 1) );
-  upperArm3();
-  
-  modelViewMatrix = mult(modelViewMatrix, translate(0.0, -UPPER_ARM_HEIGHT, 0.0)); 
-  modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm3_lowerarm], -1, 0, 1 ));
-  lowerArm3();
-  
-  modelViewMatrix = mult(model2, translate(0.5*BASE_WIDTH, 0.0, 0.0)); 
-  modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm4], 0, 0, 1 ));
-  arm4_base();
-
-  modelViewMatrix  = mult(modelViewMatrix, translate(0.0, -ARM_HEIGHT, 0.0));
-  modelViewMatrix  = mult(modelViewMatrix, rotate(theta[arm4_uppearm], 0, 0, 1) );
-  upperArm4();
-  
-  modelViewMatrix = mult(modelViewMatrix, translate(0.0, -UPPER_ARM_HEIGHT, 0.0)); 
-  modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm4_lowerarm], 0, 0, 1 ));
-  lowerArm4();
-
-
-  modelViewMatrix = mult(model2, translate(0.5*BASE_WIDTH, 0.0, -0.5*BASE_WIDTH)); 
-  modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm5], 1, 0, 1 ));
-  arm5_base();
-
-  modelViewMatrix  = mult(modelViewMatrix, translate(0.0, -ARM_HEIGHT, 0.0));
-  modelViewMatrix  = mult(modelViewMatrix, rotate(theta[arm5_uppearm], 1, 0, 1) );
-  upperArm5();
-  
-  modelViewMatrix = mult(modelViewMatrix, translate(0.0, -UPPER_ARM_HEIGHT, 0.0)); 
-  modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm5_lowerarm], 1, 0, 1 ));
-  lowerArm5();
-
-
-
-  modelViewMatrix = mult(model2, translate(0.0, 0.0, -0.5*BASE_WIDTH)); 
-  modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm6], 1, 0, 0 ));
-  arm6_base();
-
-  modelViewMatrix  = mult(modelViewMatrix, translate(0.0, -ARM_HEIGHT, 0.0));
-  modelViewMatrix  = mult(modelViewMatrix, rotate(theta[arm6_uppearm], 1, 0, 0) );
-  upperArm6();
-  
-  modelViewMatrix = mult(modelViewMatrix, translate(0.0, -UPPER_ARM_HEIGHT, 0.0)); 
-  modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm6_lowerarm], 1, 0, 0 ));
-  lowerArm6();
-
-
-
-  modelViewMatrix = mult(model2, translate(-0.5*BASE_WIDTH, 0.0, -0.5*BASE_WIDTH)); 
-  modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm7], 1, 0, -1 ));
-  arm7_base();
-
-  modelViewMatrix  = mult(modelViewMatrix, translate(0.0, -ARM_HEIGHT, 0.0));
-  modelViewMatrix  = mult(modelViewMatrix, rotate(theta[arm7_uppearm], 1, 0, -1) );
-  upperArm7();
-  
-  modelViewMatrix = mult(modelViewMatrix, translate(0.0, -UPPER_ARM_HEIGHT, 0.0)); 
-  modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm7_lowerarm], 1, 0, -1 ));
-  lowerArm7();
-
-
-  modelViewMatrix = mult(model2, translate(-0.5*BASE_WIDTH, 0.0, 0.0)); 
-  modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm8], 0, 0, -1 ));
-  arm8_base();
-
-  modelViewMatrix  = mult(modelViewMatrix, translate(0.0, -ARM_HEIGHT, 0.0));
-  modelViewMatrix  = mult(modelViewMatrix, rotate(theta[arm8_uppearm], 0, 0, -1) );
-  upperArm8();
-  
-  modelViewMatrix = mult(modelViewMatrix, translate(0.0, -UPPER_ARM_HEIGHT, 0.0)); 
-  modelViewMatrix = mult(modelViewMatrix, rotate(theta[arm8_lowerarm], 0, 0, -1 ));
-  lowerArm8();
-
-  requestAnimFrame(render);
 }
 
