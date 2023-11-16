@@ -338,10 +338,11 @@ function Octopus(arm1, arm2, arm3) {}
 
 //listeners
 function initListeners() {
-
+  
   document.getElementById("headSlider").onchange = function(event) {
     theta[0] = event.target.value;
     console.log(event.target.value);
+    console.log(theta);
   };
 
   document.getElementById("arm1").onchange = function(event) {
@@ -483,9 +484,67 @@ function initListeners() {
         playAnimation();
         console.log("Animation played!");
     });
+
+    document.getElementById('saveButton').addEventListener('click', function () {
+      saveAnimation();
+    });
+  
+    
+    // Event listener for Load Animation button
+    document.getElementById('loadButton').addEventListener('click', function () {
+      loadAnimation();
+    });
 }
 
 //Functions
+
+
+function saveAnimation() {
+  frames_data = {...frames};
+  const jsonData = JSON.stringify(frames_data);
+  const blob = new Blob([jsonData], { type: "application/json" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "animation.json";
+  link.click();
+}
+
+function convertObjectToArray(framesObject) {
+  // Extract values from the object and create an array
+  var framesArray = Object.values(framesObject);
+
+  return framesArray;
+}
+function loadAnimation(input) {
+  var fileInput = input || document.createElement('input');
+  fileInput.type = 'file';
+  
+  // Trigger click on the file input
+  fileInput.click();
+  
+  // Handle file selection
+  fileInput.addEventListener('change', function (event) {
+    var file = event.target.files[0];
+    
+    if (file) {
+      var reader = new FileReader();
+      
+      reader.onload = function (e) {
+        var animationData = JSON.parse(e.target.result);
+        console.log(animationData);
+        // Assuming you have a function to update frames with loaded data
+        frames =  convertObjectToArray(animationData);
+
+        //console.log(frames);
+        playAnimation();
+        
+        console.log("Animation loaded");
+      };
+      
+      reader.readAsText(file);
+    }
+  });
+}
 function updateBuffer() {}
 function createBuffer() {
   vBuffer = gl.createBuffer();
@@ -506,6 +565,7 @@ function createBuffer() {
 
 }
 
+
 function captureFrame() {
   var temp = [];
   for (var i = 0; i < theta.length; i++) {
@@ -513,6 +573,7 @@ function captureFrame() {
   }
   frames.push(temp);
   console.log(temp);
+
   console.log("Frame captured");
 }
 
@@ -534,8 +595,7 @@ function playAnimation() {
     for (var j = 0; j < temp.length; j++) {
       animFlag = false;
       displayFrame(temp[j]);
-      setTimeout(() => {  console.log('World!'); }, 2000);
-      animFlag = true;
+      
     }
   }
   theta = frames[frames.length-1];
@@ -546,8 +606,6 @@ function displayFrame(newTheta) {
 }
 function downloadFrame() {}
 function loadFrame() {}
-function loadAnimation() {}
-function saveAnimation() {}
 
 function subtractArrays(arr1, arr2) {
   // Make sure both arrays are of the same length
@@ -634,7 +692,6 @@ window.onload = function init() {
 
 //render
 var render = function() {
-  if (animFlag) {
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
     
     modelViewMatrix = mult(translate(0.0, 0.5*BASE_HEIGHT, 0.0), rotate(theta[Base], 0, 1, 0 ));
@@ -746,7 +803,7 @@ var render = function() {
     lowerArm8();
 
     requestAnimFrame(render);
-  }
+  
   
 }
 
