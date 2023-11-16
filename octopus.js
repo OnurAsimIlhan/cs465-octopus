@@ -59,6 +59,9 @@ var arm6_uppearm = 17;
 var arm7_uppearm = 20;
 var arm8_uppearm = 23;
 
+var MAX_FRAMES = 10;
+var frames = [];
+var delay = 10;
 
 var points = [];
 var colors = [];
@@ -464,6 +467,22 @@ function initListeners() {
 
     console.log(event.target.value);
   };
+
+
+  var saveFrameButton = document.getElementById("saveFrame");
+    var playAnimationButton = document.getElementById("playAnimation");
+
+    // Add event listeners
+    saveFrameButton.addEventListener("click", function() {
+        captureFrame();
+        //theta = [ 10, 20, 30, 40, 50, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        console.log("Frame saved!");
+    });
+
+    playAnimationButton.addEventListener("click", function() {
+        playAnimation();
+        console.log("Animation played!");
+    });
 }
 
 //Functions
@@ -487,6 +506,32 @@ function createBuffer() {
 
 }
 
+function captureFrame() {
+  frames.push(theta);
+  console.log(theta);
+  console.log("Frame captured");
+}
+
+function interpolateFrame(index) {
+  var interpolatedFrames = [];
+  var frameDif = frames[index+1] - frames[index];
+  console.log(frameDif);
+  for (var i = 0; i < MAX_FRAMES; i++) {
+    interpolatedFrames.push(frames[index] + 1);
+  }
+  console.log(interpolatedFrames);
+  return interpolatedFrames;
+}
+
+function playAnimation() {
+  for (var i = 0; i < frames.length - 1; i++) {
+    var temp = interpolateFrame(i);
+    for (var j = 0; j < temp.length; j++) {
+      theta = temp[j];
+      setTimeout(() => {  console.log('World!'); }, 200);
+    }
+  }
+}
 function displayFrame() {}
 function downloadFrame() {}
 function loadFrame() {}
