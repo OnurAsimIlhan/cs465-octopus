@@ -61,7 +61,10 @@ var arm8_uppearm = 23;
 
 var MAX_FRAMES = 10;
 var frames = [];
-var animFlag = true;
+var animFlag = false;
+var animIndex = 0;
+var count = 0;
+var frameDif = [];
 
 var points = [];
 var colors = [];
@@ -340,46 +343,45 @@ function Octopus(arm1, arm2, arm3) {}
 function initListeners() {
   
   document.getElementById("headSlider").onchange = function(event) {
-    theta[0] = event.target.value;
+    theta[0] = parseFloat(event.target.value);
     console.log(event.target.value);
-    console.log(theta);
   };
 
   document.getElementById("arm1").onchange = function(event) {
-    theta[1] = event.target.value;
+    theta[1] = parseFloat(event.target.value);
     console.log(event.target.value);
   };
   document.getElementById("arm2").onchange = function(event) {
-    theta[4] = event.target.value;
+    theta[4] = parseFloat(event.target.value);
     console.log(event.target.value);
   };
   document.getElementById("arm3").onchange = function(event) {
-    theta[7] = event.target.value;
+    theta[7] = parseFloat(event.target.value);
 
     console.log(event.target.value);
   };
   document.getElementById("arm4").onchange = function(event) {
-    theta[10] = event.target.value;
+    theta[10] = parseFloat(event.target.value);
 
     console.log(event.target.value);
   };
   document.getElementById("arm5").onchange = function(event) {
-    theta[13] = event.target.value;
+    theta[13] = parseFloat(event.target.value);
 
     console.log(event.target.value);
   };
   document.getElementById("arm6").onchange = function(event) {
-    theta[16] = event.target.value;
+    theta[16] = parseFloat(event.target.value);
 
     console.log(event.target.value);
   };
   document.getElementById("arm7").onchange = function(event) {
-    theta[19] = event.target.value;
+    theta[19] = parseFloat(event.target.value);
 
     console.log(event.target.value);
   };
   document.getElementById("arm8").onchange = function(event) {
-    theta[22] = event.target.value;
+    theta[22] = parseFloat(event.target.value);
 
     console.log(event.target.value);
   };
@@ -388,40 +390,40 @@ function initListeners() {
 
 
   document.getElementById("upperarm1").onchange = function(event) {
-    theta[2] = event.target.value;
+    theta[2] = parseFloat(event.target.value);
     console.log(event.target.value);
   };
   document.getElementById("upperarm2").onchange = function(event) {
-    theta[5] = event.target.value;
+    theta[5] = parseFloat(event.target.value);
     console.log(event.target.value);
   };
   document.getElementById("upperarm3").onchange = function(event) {
-    theta[8] = event.target.value;
+    theta[8] = parseFloat(event.target.value);
 
     console.log(event.target.value);
   };
   document.getElementById("upperarm4").onchange = function(event) {
-    theta[11] = event.target.value;
+    theta[11] = parseFloat(event.target.value);
 
     console.log(event.target.value);
   };
   document.getElementById("upperarm5").onchange = function(event) {
-    theta[14] = event.target.value;
+    theta[14] = parseFloat(event.target.value);
 
     console.log(event.target.value);
   };
   document.getElementById("upperarm6").onchange = function(event) {
-    theta[17] = event.target.value;
+    theta[17] = parseFloat(event.target.value);
 
     console.log(event.target.value);
   };
   document.getElementById("upperarm7").onchange = function(event) {
-    theta[20] = event.target.value;
+    theta[20] = parseFloat(event.target.value);
 
     console.log(event.target.value);
   };
   document.getElementById("upperarm8").onchange = function(event) {
-    theta[23] = event.target.value;
+    theta[23] = parseFloat(event.target.value);
 
     console.log(event.target.value);
   };
@@ -431,40 +433,40 @@ function initListeners() {
 
 
   document.getElementById("lowerarm1").onchange = function(event) {
-    theta[3] = event.target.value;
+    theta[3] = parseFloat(event.target.value);
     console.log(event.target.value);
   };
   document.getElementById("lowerarm2").onchange = function(event) {
-    theta[6] = event.target.value;
+    theta[6] = parseFloat(event.target.value);
     console.log(event.target.value);
   };
   document.getElementById("lowerarm3").onchange = function(event) {
-    theta[9] = event.target.value;
+    theta[9] = parseFloat(event.target.value);
 
     console.log(event.target.value);
   };
   document.getElementById("lowerarm4").onchange = function(event) {
-    theta[12] = event.target.value;
+    theta[12] = parseFloat(event.target.value);
 
     console.log(event.target.value);
   };
   document.getElementById("lowerarm5").onchange = function(event) {
-    theta[15] = event.target.value;
+    theta[15] = parseFloat(event.target.value);
 
     console.log(event.target.value);
   };
   document.getElementById("lowerarm6").onchange = function(event) {
-    theta[18] = event.target.value;
+    theta[18] = parseFloat(event.target.value);
 
     console.log(event.target.value);
   };
   document.getElementById("lowerarm7").onchange = function(event) {
-    theta[21] = event.target.value;
+    theta[21] = parseFloat(event.target.value);
 
     console.log(event.target.value);
   };
   document.getElementById("lowerarm8").onchange = function(event) {
-    theta[24] = event.target.value;
+    theta[24] = parseFloat(event.target.value);
 
     console.log(event.target.value);
   };
@@ -481,7 +483,9 @@ function initListeners() {
     });
 
     playAnimationButton.addEventListener("click", function() {
-        playAnimation();
+        //playAnimation();
+        calculateFrameDif();
+        animFlag = true;
         console.log("Animation played!");
     });
 
@@ -536,7 +540,9 @@ function loadAnimation(input) {
         frames =  convertObjectToArray(animationData);
 
         //console.log(frames);
-        playAnimation();
+        //playAnimation();
+        calculateFrameDif();
+        animFlag = true;
         
         console.log("Animation loaded");
       };
@@ -593,9 +599,7 @@ function playAnimation() {
   for (var i = 0; i < frames.length - 1; i++) {
     var temp = interpolateFrame(i);
     for (var j = 0; j < temp.length; j++) {
-      animFlag = false;
       displayFrame(temp[j]);
-      
     }
   }
   theta = frames[frames.length-1];
@@ -603,6 +607,17 @@ function playAnimation() {
 
 function displayFrame(newTheta) {
   theta = newTheta;
+}
+
+function calculateFrameDif() {
+  frameDif = [];
+  for (var i = 1; i < frames.length; i++) {
+    var temp = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    for (var j = 0; j < theta.length; j++) {
+      temp[j] = frames[i][j] - frames[i-1][j];
+    }
+    frameDif.push(temp);
+  }
 }
 function downloadFrame() {}
 function loadFrame() {}
@@ -693,6 +708,28 @@ window.onload = function init() {
 //render
 var render = function() {
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
+
+    if (animIndex == frames.length) {
+      animIndex = 0;
+      animFlag = false;
+    }
+
+    if (animFlag) {
+      if (animIndex == 0) {
+        theta = frames[0];
+        animIndex++;
+      }
+      for (var i = 0; i < theta.length; i++) {
+        theta[i] += frameDif[animIndex-1][i] / 240.0;
+      }
+      count++;
+      if (count == 240) {
+        animIndex++;
+        count = 0;
+      }
+      console.log(theta);
+      console.log(count);
+    }
     
     modelViewMatrix = mult(translate(0.0, 0.5*BASE_HEIGHT, 0.0), rotate(theta[Base], 0, 1, 0 ));
     model2 = modelViewMatrix;
