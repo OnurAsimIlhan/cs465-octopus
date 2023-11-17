@@ -21,7 +21,7 @@ var modelViewMatrix, projectionMatrix;
 var BASE_HEIGHT = 5.0;
 var BASE_WIDTH = 5.0;
 
-var ARM_HEIGHT = 4.0;
+var ARM_HEIGHT = 5.0;
 var ARM_WIDTH = 1.0;
 
 var UPPER_ARM_HEIGHT = 3.0;
@@ -380,6 +380,8 @@ function initListeners() {
     theta[0] = parseFloat(event.target.value);
   };
 
+
+
   document.getElementById("arm1").oninput = function (event) {
     theta[1] = parseFloat(event.target.value);
     console.log(event.target.value);
@@ -505,6 +507,18 @@ function initListeners() {
     captureFrame();
     //theta = [ 10, 20, 30, 40, 50, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     console.log("Frame saved!");
+  });
+
+  document.getElementById("ResetBody").addEventListener("click", function () {
+    theta = [
+      22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ];
+  });
+  document.getElementById("resetLastFrame").addEventListener("click", function () {
+    frames.pop();
+  });
+  document.getElementById("resetFrames").addEventListener("click", function () {
+    frames = [];
   });
 
   playAnimationButton.addEventListener("click", function () {

@@ -53,6 +53,7 @@
             display: flex;
             height: 100vh;
             margin: 0;
+            padding:10px;
         }
         .arm-container {
     width: 200px; /* Adjust the width as needed */
@@ -98,6 +99,22 @@ input[type="range"] {
         border-radius: 50%;
         cursor: pointer;
     }
+
+    button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
     
    
     </style>
@@ -106,7 +123,7 @@ input[type="range"] {
 <body>
     
     <div class="canvas">
-        <canvas id="gl-canvas" width="500" height="500">Oops ... your browser doesn't support the HTML5 canvas
+        <canvas id="gl-canvas" width="600" height="600">Oops ... your browser doesn't support the HTML5 canvas
             element</canvas>
             
         
@@ -120,6 +137,8 @@ input[type="range"] {
                     Head <input id="slide" type="range" min="-180" max="180" step="1" value="0">
                     
                 </div>
+                <button id="ResetBody">Reset Body</button>
+
             </div>
             
             <!-- JavaScript will dynamically generate arm containers here -->
@@ -155,9 +174,14 @@ input[type="range"] {
         </script>
     
     <button id="saveFrame">Save Frame</button>
+    <button id="resetLastFrame">Delete Last</button>
+    <button id="resetFrames">Reset Frames</button>
+
+
     <button id="playAnimation">Play Animation</button>
     <button id="saveButton">Save Animation</button>
     <button id="loadButton">Load Animation</button>
+
     </div>
 
 
