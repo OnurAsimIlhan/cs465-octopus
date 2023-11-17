@@ -15,12 +15,18 @@
         attribute  vec4 vColor;
         varying vec4 fColor;
         
+        attribute vec3 vNormal;  // Assuming you have normals for each vertex
+        varying vec3 fNormal;
+
+
         uniform mat4 modelViewMatrix;
         uniform mat4 projectionMatrix;
         
         void main() 
         {
             fColor = vColor;
+            fNormal = normalize(mat3(modelViewMatrix) * vNormal);  // Transform normal to eye space
+
             gl_Position = projectionMatrix * modelViewMatrix * vPosition;
         } 
         </script>
@@ -30,71 +36,129 @@
             precision mediump float;
             
             varying  vec4 fColor;
-            
+            varying vec3 fNormal;
+            uniform vec3 lightDirection;  // Direction of the light source
+
             void main() 
             { 
-                gl_FragColor = fColor;
+                float lightIntensity = max(dot(normalize(fNormal), normalize(lightDirection)), 0.0);
+                vec3 baseColor = fColor.rgb;
+                vec3 shadedColor = baseColor * lightIntensity;
+
+                gl_FragColor = vec4(shadedColor, fColor.a);
             } 
             </script>
     <style>
-        .arm-container {
+        body {
             display: flex;
+            height: 100vh;
+            margin: 0;
         }
+        .arm-container {
+    width: 200px; /* Adjust the width as needed */
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+#arms-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    margin: 10px;
+}
+input[type="range"] {
+    width: 100%; /* Make the sliders take up the full width of their container */
+    margin: 10px 0;
+    -webkit-appearance: none;
+    background-color: #eee;
+    height: 5px;
+    border-radius: 5px;
+}
 
-        .arm-container>div {
-            margin-right: 10px;
-            /* Adjust the margin as needed */
-        }
+    input[type="range"]:focus {
+        outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 15px;
+        height: 15px;
+        background-color: #3498db;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+        width: 15px;
+        height: 15px;
+        background-color: #3498db;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+    
+   
     </style>
 </head>
 
 <body>
+    
     <div class="canvas">
-        <canvas id="gl-canvas" width="800" height="800">Oops ... your browser doesn't support the HTML5 canvas
+        <canvas id="gl-canvas" width="500" height="500">Oops ... your browser doesn't support the HTML5 canvas
             element</canvas>
-        <div id="headSlider">
-            Head arm angle -180 <input id="slide" type="range" min="-180" max="180" step="10" value="0">
-            180
+            
+        
+        
+        
+    </div>
+    <div>
+        <div id="arms-container">
+            <div class = "arm-container">
+                <div id="headSlider">
+                    Head <input id="slide" type="range" min="-180" max="180" step="1" value="0">
+                    
+                </div>
+            </div>
+            
+            <!-- JavaScript will dynamically generate arm containers here -->
         </div>
-
+        
+        <script>
+            // JavaScript to dynamically generate arm containers for arm0 to arm7
+            var armsContainer = document.getElementById('arms-container');
+    
+            for (var i = 1; i <= 8; i++) {
+                var armContainer = document.createElement('div');
+                armContainer.className = 'arm-container';
+                armContainer.id = 'arm' + i + '-container';
+    
+                var baseDiv = document.createElement('div');
+                baseDiv.id = 'arm' + i;
+                baseDiv.innerHTML = 'Arm ' + i + ' <input id="arm-' + i + '" type="range" min="-45" max="45" step="2" value="0"> ';
+    
+                var frontDiv = document.createElement('div');
+                frontDiv.id = 'upperarm' + i;
+                frontDiv.innerHTML = 'Upperarm ' + i + ' <input id="upperarm-' + i + '" type="range" min="-90" max="90" step="2" value="0"> ';
+    
+                var backDiv = document.createElement('div');
+                backDiv.id = 'lowerarm' + i;
+                backDiv.innerHTML = 'Lowerarm ' + i + ' <input id="lowerarm-' + i + '" type="range" min="-90" max="90" step="2" value="0"> ';
+    
+    
+                armContainer.appendChild(baseDiv);
+                armContainer.appendChild(frontDiv);
+                armContainer.appendChild(backDiv);
+                armsContainer.appendChild(armContainer);
+            }
+        </script>
+    
+    <button id="saveFrame">Save Frame</button>
+    <button id="playAnimation">Play Animation</button>
+    <button id="saveButton">Save Animation</button>
+    <button id="loadButton">Load Animation</button>
     </div>
-    <div id="arms-container">
-        <!-- JavaScript will dynamically generate arm containers here -->
-    </div>
-
-    <script>
-        // JavaScript to dynamically generate arm containers for arm0 to arm7
-        var armsContainer = document.getElementById('arms-container');
-
-        for (var i = 1; i <= 8; i++) {
-            var armContainer = document.createElement('div');
-            armContainer.className = 'arm-container';
-            armContainer.id = 'arm' + i + '-container';
-
-            var baseDiv = document.createElement('div');
-            baseDiv.id = 'arm' + i;
-            baseDiv.innerHTML = 'arm' + i + '-base angle -180 <input id="slide" type="range" min="-45" max="45" step="10" value="0"> 180';
-
-            var frontDiv = document.createElement('div');
-            frontDiv.id = 'upperarm' + i;
-            frontDiv.innerHTML = 'upperarm' + i + '-base angle -180 <input id="slide" type="range" min="-90" max="90" step="10" value="0"> 180';
-
-            var backDiv = document.createElement('div');
-            backDiv.id = 'lowerarm' + i;
-            backDiv.innerHTML = 'lowerarm' + i + '-base angle -180 <input id="slide" type="range" min="-90" max="90" step="10" value="0"> 180';
-
-
-            armContainer.appendChild(baseDiv);
-            armContainer.appendChild(frontDiv);
-            armContainer.appendChild(backDiv);
-            armsContainer.appendChild(armContainer);
-        }
-    </script>
-
-<button id="saveFrame">Save Frame</button>
-<button id="playAnimation">Play Animation</button>
-<button id="saveButton">Save Animation</button>
-<button id="loadButton">Load Animation</button>
 
 
 
