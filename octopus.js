@@ -94,11 +94,17 @@ var vertexColors2 = [
   vec4(1.0, 1.0, 1.0, 1.0), // white
   vec4(0.0, 1.0, 1.0, 1.0), // cyan
 ];
-var r = 245 / 255.0;  // Normalize red component
-var g = 65 / 255.0;   // Normalize green component
-var b = 29 / 255.0;   // Normalize blue component
+var r = 245 / 255.0; // Normalize red component
+var g = 65 / 255.0; // Normalize green component
+var b = 29 / 255.0; // Normalize blue component
 
-  // Create a vec4 vector with alpha set to 1.0
+// Create a vec4 vector with alpha set to 1.0
+
+function randomizeRGB() {
+  r = Math.random() / 255.0; // Random value between 0 and 1
+  g = Math.random() / 255.0;
+  b = Math.random() / 255.0;
+}
 
 var vertexColors = [
   vec4(r, g, b, 1.0),
@@ -110,7 +116,6 @@ var vertexColors = [
   vec4(r, g, b, 1.0),
   vec4(r, g, b, 1.0),
 ];
-
 
 function quad(a, b, c, d) {
   var t1 = subtract(vertices[b], vertices[a]);
@@ -139,6 +144,7 @@ function quad(a, b, c, d) {
 }
 
 function colorCube() {
+  
   quad(1, 0, 3, 2);
   quad(2, 3, 7, 6);
   quad(3, 0, 4, 7);
@@ -155,6 +161,19 @@ function scale4(a, b, c) {
 }
 
 //objects
+function randomizeDimensions() {
+  BASE_HEIGHT = Math.random() * 5; // 0 to 5
+  BASE_WIDTH = Math.random() * BASE_HEIGHT; // 0 to BASE_HEIGHT
+
+  ARM_HEIGHT = Math.random() * BASE_HEIGHT; // 0 to BASE_HEIGHT
+  ARM_WIDTH = Math.random() * ARM_HEIGHT; // 0 to ARM_HEIGHT
+
+  UPPER_ARM_HEIGHT = Math.random() * ARM_HEIGHT; // 0 to ARM_HEIGHT
+  UPPER_ARM_WIDTH = Math.random() * UPPER_ARM_HEIGHT; // 0 to UPPER_ARM_HEIGHT
+
+  LOWER_ARM_HEIGHT = Math.random() * UPPER_ARM_HEIGHT; // 0 to UPPER_ARM_HEIGHT
+  LOWER_ARM_WIDTH = Math.random() * LOWER_ARM_HEIGHT; // 0 to LOWER_ARM_HEIGHT
+}
 
 function RectanglePrism(dimensions, currentLocation, direction) {}
 function Cylinder(dimensions, currentLocation, direction) {}
@@ -363,24 +382,21 @@ function fixSliders() {
   var slider = document.getElementById("slide");
   slider.value = theta[0];
 
-  
   for (var i = 1; i <= 8; i++) {
     var armSlider = document.getElementById("arm-" + i);
-    armSlider.value = theta[3*i-2];
+    armSlider.value = theta[3 * i - 2];
 
     var upperarmSlider = document.getElementById("lowerarm-" + i);
-    upperarmSlider.value = theta[3*i-1]; 
+    upperarmSlider.value = theta[3 * i - 1];
 
     var lowerarmSlider = document.getElementById("upperarm-" + i);
-    lowerarmSlider.value = theta[3*i]; 
+    lowerarmSlider.value = theta[3 * i];
   }
 }
 function initListeners() {
   document.getElementById("slide").oninput = function (event) {
     theta[0] = parseFloat(event.target.value);
   };
-
-
 
   document.getElementById("arm1").oninput = function (event) {
     theta[1] = parseFloat(event.target.value);
@@ -511,18 +527,23 @@ function initListeners() {
 
   document.getElementById("ResetBody").addEventListener("click", function () {
     theta = [
-      22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    ];   
+      22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0,
+    ];
   });
-  
-  document.getElementById("randomAnimation").addEventListener("click", function () {
-    randomAnimationGenerate();
-    calculateFrameDif();
-    animFlag = true;
-  });
-  document.getElementById("resetLastFrame").addEventListener("click", function () {
-    frames.pop();
-  });
+
+  document
+    .getElementById("randomAnimation")
+    .addEventListener("click", function () {
+      randomAnimationGenerate();
+      calculateFrameDif();
+      animFlag = true;
+    });
+  document
+    .getElementById("resetLastFrame")
+    .addEventListener("click", function () {
+      frames.pop();
+    });
   document.getElementById("resetFrames").addEventListener("click", function () {
     frames = [];
   });
@@ -541,6 +562,11 @@ function initListeners() {
   // Event listener for Load Animation button
   document.getElementById("loadButton").addEventListener("click", function () {
     loadAnimation();
+  });
+
+  document.getElementById("mutation").addEventListener("click", function () {
+    randomizeDimensions();
+    randomizeRGB();
   });
 }
 
@@ -619,7 +645,6 @@ function createBuffer() {
   vNormal = gl.getAttribLocation(program, "vNormal");
   gl.vertexAttribPointer(vNormal, 3, gl.FLOAT, false, 0, 0);
   gl.enableVertexAttribArray(vNormal);
-
 }
 
 function captureFrame() {
@@ -677,30 +702,25 @@ function downloadFrame() {}
 function loadFrame() {}
 
 function randomAnimationGenerate() {
-
-  for(var j = 0; j < 10; j++){
+  for (var j = 0; j < 10; j++) {
     var theta2 = [];
     for (var i = 0; i < 25; i++) {
       // Generate a random number between -90 and 90
       if (i == 0) {
         randomAngle = Math.floor(Math.random() * 361) - 180; // -180 to 180
-      } else if (i%3 == 1) {
+      } else if (i % 3 == 1) {
         randomAngle = Math.floor(Math.random() * 46); // -45 to 45
-      } else if (i%3 == 2) {
+      } else if (i % 3 == 2) {
         randomAngle = Math.floor(Math.random() * 181) - 90; // -90 to 90
-      } else if (i%3 == 0) {
+      } else if (i % 3 == 0) {
         randomAngle = Math.floor(Math.random() * 181) - 90; // -90 to 90
       }
-      
+
       theta2.push(randomAngle);
     }
     frames.push(theta2);
-
   }
 }
-
-
-
 
 function subtractArrays(arr1, arr2) {
   // Make sure both arrays are of the same length
@@ -774,7 +794,7 @@ window.onload = function init() {
   var lightDirection = [1.0, 1.0, 1.0]; // Replace with your actual light direction
   var lightDirectionLoc = gl.getUniformLocation(program, "lightDirection");
   gl.uniform3fv(lightDirectionLoc, lightDirection);
-  
+
   initListeners();
 
   modelViewMatrixLoc = gl.getUniformLocation(program, "modelViewMatrix");
