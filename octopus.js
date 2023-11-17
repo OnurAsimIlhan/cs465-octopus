@@ -512,7 +512,13 @@ function initListeners() {
   document.getElementById("ResetBody").addEventListener("click", function () {
     theta = [
       22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    ];
+    ];   
+  });
+  
+  document.getElementById("randomAnimation").addEventListener("click", function () {
+    randomAnimationGenerate();
+    calculateFrameDif();
+    animFlag = true;
   });
   document.getElementById("resetLastFrame").addEventListener("click", function () {
     frames.pop();
@@ -670,6 +676,32 @@ function calculateFrameDif() {
 function downloadFrame() {}
 function loadFrame() {}
 
+function randomAnimationGenerate() {
+
+  for(var j = 0; j < 10; j++){
+    var theta2 = [];
+    for (var i = 0; i < 25; i++) {
+      // Generate a random number between -90 and 90
+      if (i == 0) {
+        randomAngle = Math.floor(Math.random() * 361) - 180; // -180 to 180
+      } else if (i%3 == 1) {
+        randomAngle = Math.floor(Math.random() * 46); // -45 to 45
+      } else if (i%3 == 2) {
+        randomAngle = Math.floor(Math.random() * 181) - 90; // -90 to 90
+      } else if (i%3 == 0) {
+        randomAngle = Math.floor(Math.random() * 181) - 90; // -90 to 90
+      }
+      
+      theta2.push(randomAngle);
+    }
+    frames.push(theta2);
+
+  }
+}
+
+
+
+
 function subtractArrays(arr1, arr2) {
   // Make sure both arrays are of the same length
   if (arr1.length !== arr2.length) {
@@ -776,10 +808,10 @@ var render = function () {
       animIndex++;
     }
     for (var i = 0; i < theta.length; i++) {
-      theta[i] += frameDif[animIndex - 1][i] / 240.0;
+      theta[i] += frameDif[animIndex - 1][i] / 150.0;
     }
     count++;
-    if (count == 240) {
+    if (count == 150) {
       animIndex++;
       count = 0;
     }
